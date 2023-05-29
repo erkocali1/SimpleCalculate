@@ -55,18 +55,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculateResults(): String {
-        val digitOperators=digitOperators()
-        if(digitOperators.isEmpty()) return ""
+        val digitOperators = digitOperators()
+        if (digitOperators.isEmpty()) return ""
 
-        val timeDivision=timedDivisonCalculate(digitOperators)
+        val timeDivision = timedDivisonCalculate(digitOperators)
         return ""
     }
 
     private fun timedDivisonCalculate(passedList: MutableList<Any>): MutableList<Any> {
-        var list=passedList
-        while (list.contains('x')||list.contains('/')){
+        var list = passedList
+        while (list.contains('x') || list.contains('/')) {
 
-            list=calcTimesDiv(list)
+            list = calcTimesDiv(list)
         }
         return list
 
@@ -74,10 +74,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun calcTimesDiv(passedList: MutableList<Any>): MutableList<Any> {
 
-        val newList= mutableListOf<Any>()
-        var restartIndex=passedList.size
-        for (i in passedList)
-return newList
+        val newList = mutableListOf<Any>()
+        var restartIndex = passedList.size
+        for (i in passedList.indices) {
+            if (passedList[i] is Char && i != passedList.lastIndex && i < restartIndex) {
+                val operator = passedList[i]
+                val prevDigit = passedList[i] as Float
+                val nextDigit = passedList[i] as Float
+                when (operator) {
+                    'x' -> {
+                        newList.add(prevDigit.times(nextDigit))
+                        restartIndex = i + 1
+                    }
+
+                    '/' -> {
+                        newList.add(prevDigit.div(nextDigit))
+                        restartIndex = i + 1
+                    }
+
+                    else -> {
+                        newList.add(prevDigit)
+                        newList.add(operator)
+                    }
+                }
+            }
+            if (i > restartIndex) newList.add(passedList[i])
+        }
+        return newList
     }
 
     private fun digitOperators(): MutableList<Any> {
