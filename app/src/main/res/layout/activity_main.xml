@@ -129,11 +129,11 @@
 
         <Button
             style="@style/buttonNumber"
-            android:text="7" />
+            android:text="." />
 
         <Button
             style="@style/buttonNumber"
-            android:text="8" />
+            android:text="0" />
 
         <Button
             style="@style/buttonOperator"
